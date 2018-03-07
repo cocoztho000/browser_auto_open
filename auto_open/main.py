@@ -1,18 +1,27 @@
+#!/usr/bin/env python
 
 config = [
 	# Window 1
 	{
 		"window_position_x_percent": 0,
 		"window_position_y_percent": 0,
-		"browser_width_percent": .5,
+		"browser_width_percent": .33,
 		"browser_height_percent": 1,
 		"url": "https://www.google.com/",
 	},
 	# Window 2
 	{
-		"window_position_x_percent": .5,
+		"window_position_x_percent": .33,
 		"window_position_y_percent": 0,
-		"browser_width_percent": .5,
+		"browser_width_percent": .33,
+		"browser_height_percent": 1,
+		"url": "https://www.google.com/",
+	},
+	# Window 4
+	{
+		"window_position_x_percent": .66,
+		"window_position_y_percent": 0,
+		"browser_width_percent": .33,
 		"browser_height_percent": 1,
 		"url": "https://www.google.com/",
 	},
@@ -34,8 +43,8 @@ def get_display_res():
 
 
 def run_cmd(url, browser_width, browser_height, window_position_x, window_position_y):
-	cmd = ('chromium --app="data:text/html,<html><body><script>window.moveTo(' + str(window_position_x) + ',' + str(window_position_y) +
-		');window.resizeTo('+ str(browser_width) +',' + str(browser_height) + ');window.location=\''+ url +'\';</script></body></html>" &')
+	cmd = ('chromium-browser --app="data:text/html,<html><body><script>window.moveTo(' + str(window_position_x) + ',' + str(window_position_y) +
+		');window.resizeTo('+ str(browser_width) +',' + str(browser_height) + ');setTimeout(location.reload.bind(location), 10000);window.location=\''+ url +'\';document.body.style.zoom=\'.33%\';</script></body></html>" &')
 	print '... cmd: ' + cmd
 	os.system(cmd)
 
@@ -62,3 +71,6 @@ for website in config:
 	print ('...Window Postion y: ' + str(window_position_y))
 
 	run_cmd(website['url'], browser_width, browser_height, window_position_x, window_position_y)
+
+# Lock the computer but keep the display visible
+os.system('xtrlock &')
